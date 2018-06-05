@@ -17,3 +17,5 @@ RUN apk add --update ca-certificates \
  && rm /var/cache/apk/*
 
 CMD ["helm"]
+
+ADD *.yml /
