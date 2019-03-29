@@ -12,6 +12,7 @@ RUN apk add --update --no-cache ca-certificates bash git curl gettext tar gzip \
  && helm init --client-only \
  && helm plugin install https://github.com/hypnoglow/helm-s3.git \
  && helm plugin install https://github.com/databus23/helm-diff \
- && helm plugin install https://github.com/futuresimple/helm-secrets
+ && helm plugin install https://github.com/futuresimple/helm-secrets \
+ && helm plugin install https://github.com/chartmuseum/helm-push
 
 ADD *.yml /
