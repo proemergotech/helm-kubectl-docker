@@ -11,7 +11,7 @@ container_names=($(kubectl -n ${CI_ENVIRONMENT_NAME} get ${resource_kind} -l app
 image_updates=()
 for container in ${container_names[@]} 
 do
-    image_updates+=("${container}=registry.gitlab.com/proemergotech/${CI_PROJECT_NAME}:${CI_COMMIT_SHA}")
+    image_updates+=("${container}=${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}:${CI_COMMIT_SHA}")
 done
 
 kubectl -n ${CI_ENVIRONMENT_NAME} set image ${resource_kind}/${CI_PROJECT_NAME} ${image_updates[@]} 
