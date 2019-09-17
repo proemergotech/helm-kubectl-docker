@@ -11,9 +11,8 @@ RUN apk add --update --no-cache ca-certificates bash git curl gettext tar gzip p
  && curl -L https://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz | tar xz && mv linux-amd64/helm /usr/local/bin/helm && rm -rf linux-amd64 \
  && chmod +x /usr/local/bin/kubectl /usr/local/bin/aws-iam-authenticator /usr/local/bin/helm \
  && helm init --client-only \
- && helm plugin install https://github.com/hypnoglow/helm-s3.git \
- && helm plugin install https://github.com/databus23/helm-diff \
- && helm plugin install https://github.com/futuresimple/helm-secrets \
  && helm plugin install https://github.com/chartmuseum/helm-push
 
-ADD *.yml /
+ADD update_images.sh *.yml /
+RUN chmod +x /update_images.sh
+
