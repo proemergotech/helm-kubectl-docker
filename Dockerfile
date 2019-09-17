@@ -1,8 +1,8 @@
 FROM alpine
 
-ENV KUBE_VERSION="v1.12.1"
+ENV KUBE_VERSION="v1.15.2"
 ENV HELM_VERSION="v2.13.1"
-ENV AWS_IAM_AUTHENTICATOR_VERSION="1.11.5/2018-12-06"
+ENV AWS_IAM_AUTHENTICATOR_VERSION="1.14.6/2019-08-22"
 
 RUN apk add --update --no-cache ca-certificates bash git curl gettext tar gzip python py-pip jq \
  && pip install awscli yq --upgrade \
