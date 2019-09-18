@@ -5,8 +5,9 @@ set -euo pipefail
 # stop script not just the current command
 trap "exit" SIGINT SIGTERM
 
-resource_kind=$(kubectl -n ${CI_ENVIRONMENT_NAME} get deployment,daemonset,statefulset -l app=${CI_PROJECT_NAME} -o json | jq -r '.items[].kind')
-container_names=($(kubectl -n ${CI_ENVIRONMENT_NAME} get ${resource_kind} -l app=${CI_PROJECT_NAME} -o json | jq -r '.items[].spec.template.spec | .containers[],.initContainers[] | select(.image | contains($ENV.CI_PROJECT_NAME)) | .name' ))
+resource=$(kubectl -n ${CI_ENVIRONMENT_NAME} get deployment,daemonset,statefulset -l app=${CI_PROJECT_NAME} -o json)
+resource_kind=$(echo ${resource} | jq -r '.items[].kind')
+container_names=($(echo ${resource} | jq -r '.items[].spec.template.spec | .containers[],.initContainers[] | select(.image | contains($ENV.CI_PROJECT_NAME)) | .name' ))
 
 image_updates=()
 for container in ${container_names[@]} 
