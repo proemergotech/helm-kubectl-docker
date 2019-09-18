@@ -12,6 +12,9 @@ if [[ ${item_count} > 1 ]]; then
     echo "Found more than 1 resource: "
     echo "$(echo ${resource} | jq -r '.items[] | .kind + "/" + .metadata.name')"
     exit 1
+elif [[ ${item_count} == 0 ]]; then
+    echo "Resource '${CI_PROJECT_NAME}' not found"
+    exit 1
 fi
 
 resource_kind=$(echo ${resource} | jq -r '.items[].kind')
