@@ -6,6 +6,14 @@ set -euo pipefail
 trap "exit" SIGINT SIGTERM
 
 resource=$(kubectl -n ${CI_ENVIRONMENT_NAME} get deployment,daemonset,statefulset -l app=${CI_PROJECT_NAME} -o json)
+item_count=$(echo ${resource} | jq -r '.items | length') 
+
+if [[ ${item_count} > 1 ]]; then
+    echo "Found more than 1 resource: "
+    echo "$(echo ${resource} | jq -r '.items[] | .kind + "/" + .metadata.name')"
+    exit 1
+fi
+
 resource_kind=$(echo ${resource} | jq -r '.items[].kind')
 container_names=($(echo ${resource} | jq -r '.items[].spec.template.spec | .containers[],.initContainers[] | select(.image | contains($ENV.CI_PROJECT_NAME)) | .name' ))
 
